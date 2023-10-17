@@ -168,7 +168,7 @@ class DataModule(pl.LightningDataModule):
             return
 
         if stage == 'fit':
-            # Training Dataset
+            # Training Dataset 返回一系列的场景List[AbstractScenario]
             train_samples = self._splitter.get_train_samples(self._all_samples, self._worker)
             assert len(train_samples) > 0, 'Splitter returned no training samples'
 
@@ -220,13 +220,23 @@ class DataModule(pl.LightningDataModule):
         else:
             weighted_sampler = None
 
-        return torch.utils.data.DataLoader(
+        train_dataloader = torch.utils.data.DataLoader(
             dataset=self._train_set,
             shuffle=weighted_sampler is None,
             collate_fn=FeatureCollate(),
             sampler=weighted_sampler,
             **self._dataloader_params,
         )
+        train_features, train_labels, scenarios = next(iter(train_dataloader))
+        print(f"[steve add] Feature batch shape: {len(train_features)}")
+        print(f"Labels batch shape: {len(train_labels)}")
+        print(f"Scenario batch shape: {len(scenarios)}")
+        print(f"feature name : {list(train_features.keys())[0]}")
+        print(f"label name : {list(train_labels.keys())[0]}")
+        print(f"feature size : {list(train_features.values())[0].data.shape}")
+        print(f"label size : {len(list(train_labels.values())[0].data)}, {list(train_labels.values())[0].data[0].shape}")
+
+        return train_dataloader
 
     def val_dataloader(self) -> torch.utils.data.DataLoader:
         """

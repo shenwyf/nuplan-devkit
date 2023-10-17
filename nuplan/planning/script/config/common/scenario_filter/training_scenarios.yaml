@@ -1,7 +1,20 @@
 _target_: nuplan.planning.scenario_builder.scenario_filter.ScenarioFilter
 _convert_: 'all'
 
-scenario_types: null                # List of scenario types to include
+scenario_types: [starting_straight_traffic_light_intersection_traversal,
+                 high_lateral_acceleration,
+                 changing_lane,
+                 high_magnitude_speed,
+                 low_magnitude_speed,
+                 starting_left_turn,
+                 starting_right_turn,
+                 stopping_with_lead,
+                 following_lane_with_lead,
+                 near_multiple_vehicles,
+                 traversing_pickup_dropoff,
+                 behind_long_vehicle,
+                 waiting_for_pedestrian_to_cross,
+                 stationary_in_traffic]                # List of scenario types to include
 scenario_tokens: null               # List of scenario tokens to include
 
 log_names: null                     # Filter scenarios by log names

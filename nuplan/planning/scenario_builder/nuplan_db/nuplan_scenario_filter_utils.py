@@ -171,6 +171,7 @@ def get_scenarios_from_db_file(params: GetScenariosFromDbFileParams) -> Scenario
     )
 
     scenario_dict: ScenarioDict = {}
+    scenario_count = 0
     for row in get_scenarios_from_db(
         local_log_file_absolute_path,
         params.filter_tokens,
@@ -180,6 +181,8 @@ def get_scenarios_from_db_file(params: GetScenariosFromDbFileParams) -> Scenario
         params.include_cameras,
     ):
         scenario_type = row["scenario_type"]
+        # print("steve add[scenario type]%d: %s ", scenario_count, scenario_type)
+        scenario_count+=1
 
         if scenario_type is None:
             scenario_type = DEFAULT_SCENARIO_NAME

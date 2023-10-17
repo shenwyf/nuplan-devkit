@@ -54,8 +54,11 @@ class RasterModel(TorchModuleWrapper):
             future_trajectory_sampling=future_trajectory_sampling,
         )
 
+        # 规划轨迹8s，共16个pose（间隔0.5s），每个pose包含3个feature ： 16 × 3
         num_output_features = future_trajectory_sampling.num_poses * num_features_per_pose
+        # timm 创建模型resnet50
         self._model = timm.create_model(model_name, pretrained=pretrained, num_classes=0, in_chans=num_input_channels)
+        # Applies a linear transformation to the incoming data: y = x*W^T + b.
         mlp = torch.nn.Linear(in_features=self._model.num_features, out_features=num_output_features)
 
         if hasattr(self._model, 'classifier'):

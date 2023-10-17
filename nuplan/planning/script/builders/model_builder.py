@@ -16,6 +16,7 @@ def build_torch_module_wrapper(cfg: DictConfig) -> TorchModuleWrapper:
     :return: Instance of TorchModuleWrapper.
     """
     logger.info('Building TorchModuleWrapper...')
+    #hydra instantiate 
     model = instantiate(cfg)
     validate_type(model, TorchModuleWrapper)
     logger.info('Building TorchModuleWrapper...DONE!')

@@ -44,7 +44,7 @@ class ScenarioDataset(torch.utils.data.Dataset):
         :return: model features and targets
         """
         scenario = self._scenarios[idx]
-
+        # 计算特征
         features, targets, _ = self._feature_preprocessor.compute_features(scenario)
 
         if self._augmentors is not None:
@@ -53,6 +53,8 @@ class ScenarioDataset(torch.utils.data.Dataset):
                 features, targets = augmentor.augment(features, targets, scenario)
 
         features = {key: value.to_feature_tensor() for key, value in features.items()}
+        # for key, value in features.items():
+        #     print(f"[steve add] features size: {key}, shape: {value.data.shape}")
         targets = {key: value.to_feature_tensor() for key, value in targets.items()}
         scenarios = [scenario]
 

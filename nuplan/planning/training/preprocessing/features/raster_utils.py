@@ -19,6 +19,9 @@ from nuplan.common.maps.abstract_map_objects import PolygonMapObject, PolylineMa
 from nuplan.common.maps.maps_datatypes import TrafficLightStatusType
 from nuplan.planning.simulation.observation.observation_type import DetectionsTracks
 
+from datetime import datetime
+
+
 # TODO: Move traffic light color configurations to hydra yaml files.
 # Color dict in the format of taffic_light_type: color tuple
 BASELINE_TL_COLOR = {
@@ -82,6 +85,8 @@ def _get_layer_coords(
         point=ego_position,
         radius=radius,
     )
+
+    # [steve add] geometry: a list of MapObject
     geometry = nearest_vector_map[map_layer_name]
 
     if len(geometry):
@@ -92,6 +97,7 @@ def _get_layer_coords(
         transform = map_align_transform @ global_transform
 
         if map_layer_geometry == 'polygon':
+            # [steve add] object coords: MapObject的角点
             _object_coords = _polygon_to_coords(geometry)
         elif map_layer_geometry == 'linestring':
             _object_coords = _linestring_to_coords(geometry)
@@ -281,6 +287,9 @@ def get_agents_raster(
     agents_raster = np.asarray(agents_raster)
     agents_raster = np.flip(agents_raster, axis=0)
     agents_raster = np.ascontiguousarray(agents_raster, dtype=np.float32)
+    # now = datetime.now()
+    # time_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    # cv2.imwrite(f'agents-{time_string}.jpg', agents_raster)
 
     return agents_raster
 
@@ -402,6 +411,14 @@ def get_ego_raster(
     ego_top_left = (map_x_center - ego_width_pixels // 2, map_y_center - ego_front_length_pixels)
     ego_bottom_right = (map_x_center + ego_width_pixels // 2, map_y_center + ego_rear_length_pixels)
     cv2.rectangle(ego_raster, ego_top_left, ego_bottom_right, 1, -1)
+
+    # now = datetime.now()
+    # time_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    # np.savetxt(f'ego-{time_string}.csv', ego_raster)
+    # now = datetime.now()
+    # time_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    # cv2.imwrite(f'ego_raster-{time_string}.jpg', np.asarray(ego_raster))
+    # print(f"ego_raster_shape: {ego_raster.shape}, ego_top_left: {ego_top_left}, bottom_right: {ego_bottom_right}" )
 
     return np.asarray(ego_raster)
 

@@ -252,7 +252,9 @@ class NuPlanScenarioBuilder(AbstractScenarioBuilder):
     def get_scenarios(self, scenario_filter: ScenarioFilter, worker: WorkerPool) -> List[AbstractScenario]:
         """Implemented. See interface."""
         # Create scenario dictionary and series of filters to apply
+        # 从db files里读取场景并解析，最后存储在dict里
         scenario_dict = self._create_scenarios(scenario_filter, worker)
+        # 通过scenario_filter参数来对场景进行一些筛选
         filter_wrappers = self._create_filter_wrappers(scenario_filter, worker)
 
         # Apply filtering strategy sequentially to the scenario dictionary

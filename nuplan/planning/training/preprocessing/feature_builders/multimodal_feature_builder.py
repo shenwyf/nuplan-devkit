@@ -16,7 +16,7 @@ from nuplan.planning.training.preprocessing.feature_builders.abstract_feature_bu
     AbstractFeatureBuilder,
     AbstractModelFeature,
 )
-from nuplan.planning.training.preprocessing.features.raster import Raster
+from nuplan.planning.training.preprocessing.features.multi_modal import MultiModal
 from nuplan.planning.training.preprocessing.features.raster_utils import (
     get_agents_raster,
     get_baseline_paths_raster,
@@ -25,9 +25,9 @@ from nuplan.planning.training.preprocessing.features.raster_utils import (
 )
 
 
-class RasterFeatureBuilder(AbstractFeatureBuilder):
+class MultiModalFeatureBuilder(AbstractFeatureBuilder):
     """
-    Raster builder responsible for constructing model input features.
+    Multi-modal prediction builder responsible for constructing model input features.
     """
 
     def __init__(
@@ -81,14 +81,14 @@ class RasterFeatureBuilder(AbstractFeatureBuilder):
     @classmethod
     def get_feature_unique_name(cls) -> str:
         """Inherited, see superclass."""
-        return "raster"
+        return "multimodal"
 
     @classmethod
     def get_feature_type(cls) -> Type[AbstractModelFeature]:
         """Inherited, see superclass."""
-        return Raster  # type: ignore
+        return MultiModal  # type: ignore
 
-    def get_features_from_scenario(self, scenario: AbstractScenario) -> Raster:
+    def get_features_from_scenario(self, scenario: AbstractScenario) -> MultiModal:
         """Inherited, see superclass."""
         ego_state = scenario.initial_ego_state
         detections = scenario.initial_tracked_objects
@@ -96,25 +96,26 @@ class RasterFeatureBuilder(AbstractFeatureBuilder):
 
         return self._compute_feature(ego_state, detections, map_api)
 
-    def get_features_from_simulation(
-        self, current_input: PlannerInput, initialization: PlannerInitialization
-    ) -> Raster:
-        """Inherited, see superclass."""
-        history = current_input.history
-        ego_state = history.ego_states[-1]
-        observation = history.observations[-1]
+    # def get_features_from_simulation(
+    #     self, current_input: PlannerInput, initialization: PlannerInitialization
+    # ) -> MultiModal:
+    #     """Inherited, see superclass."""
+    #     history = current_input.history
+    #     ego_state = history.ego_states[-1]
+    #     observation = history.observations[-1]
 
-        if isinstance(observation, DetectionsTracks):
-            return self._compute_feature(ego_state, observation, initialization.map_api)
-        else:
-            raise TypeError(f"Observation was type {observation.detection_type()}. Expected DetectionsTracks")
+    #     if isinstance(observation, DetectionsTracks):
+    #         return self._compute_feature(ego_state, observation, initialization.map_api)
+    #     else:
+    #         raise TypeError(f"Observation was type {observation.detection_type()}. Expected DetectionsTracks")
 
     def _compute_feature(
         self,
         ego_state: EgoState,
         detections: DetectionsTracks,
         map_api: AbstractMap,
-    ) -> Raster:
+    ) -> MultiModal:
+
         # Construct map, agents and ego layers
         roadmap_raster = get_roadmap_raster(
             ego_state.agent,
@@ -127,7 +128,7 @@ class RasterFeatureBuilder(AbstractFeatureBuilder):
         )
 
         agents_raster = get_agents_raster(
-            ego_state,
+             ego_state,
             detections,
             self.x_range,
             self.y_range,

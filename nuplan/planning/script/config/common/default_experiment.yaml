@@ -1,6 +1,6 @@
 # Common experiment configs
 
-group: ${oc.env:NUPLAN_EXP_ROOT}/exp               # This is where results, logs, config, etc. are saved
+group: ${oc.env:NUPLAN_EXP_ROOT}               # This is where results, logs, config, etc. are saved
 experiment_name: ???                                # Experiment name, by default 'simulation' or 'training'
 job_name: ???                                       # Job name, as defined in the specific yaml files.
 

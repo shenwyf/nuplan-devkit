@@ -386,6 +386,7 @@ class LaneNet(nn.Module):
         # fusion_net map
         residual = lane_features
         for idx in range(self.num_residual_blocks):  # stack of N multi-scale residual blocks
+            #[steve add] lane_features为传入对应nn.module中forward函数的入参
             temp_features = self.fusion_net['center'][idx](lane_features)
             for key in self.fusion_net:
                 # predecessor nodes
