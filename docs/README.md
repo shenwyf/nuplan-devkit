@@ -37,13 +37,18 @@ ______________________________________________________________________
 - A short tutorial for the sensor data is provided `nuplan_sensor_data_tutorial.ipynb` to get you started.
 ______________________________________________________________________
 ## Planning challenges
-#### IMPORTANT: The Planning Challenge will be using devkit version 1.2 from now on. Submissions generated from version v1.1 should remain compatible. However, please double-check by submitting to the warm-up phase.
-- The nuPlan Planning Competition is live!
-- The challenge will be presented as part of the [New Advances On Autonomous Driving](https://opendrivelab.com/event/cvpr23_ADworkshop) workshop at CVPR 2023
+#### IMPORTANT: The base docker image used in nuPlan submission has been updated. You should rebuild your submission container with the new `Dockerfile.submission`
+
+- The Planning Challenge will be using devkit version 1.2 from now on. Submissions generated from version v1.1 should remain compatible. However, please double-check by submitting to the warm-up phase.
+- The challenge will be presented as part of the [End-to-End Autonomous Driving](https://opendrivelab.com/event/cvpr23_ADworkshop) workshop at CVPR 2023
 - The nuPlan Dataset v1.1 has been released. Please download the latest dataset from the nuPlan [page](https://www.nuscenes.org/nuplan#download).
 ______________________________________________________________________
 
 ## Changelog
+- May 11th 2023
+  * v1.2.2 Devkit: Upated the submission base images.
+- May 9th 2023
+  * v1.2.1 Devkit: Update to competition dates. Submission Deadline extended to May 26th, 2023.
 - April 25th 2023
   * v1.2 Devkit: The nuPlan sensor data have been released! Improved feature caching and nuBoard dashboard functionality. Changed dataset file structure, data interfaces now allow retrieval of sensor data. Pinned several packages including hydra, numpy and sqlalchemy.
 - January 20th 2023
